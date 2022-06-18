@@ -1,0 +1,73 @@
+.App {
+  margin: 2rem auto;
+}
+
+.App a {
+  text-decoration: none;
+}
+
+.header {
+  background-color: seashell;
+  border: 1px solid darkgray;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+  margin-bottom: 3rem;
+}
+
+.article-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  gap: 2rem;
+}
+
+.article-image {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.article-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+}
+
+.article-card {
+  background-color: white;
+  border-radius: 20px;
+  transition: 0.3s;
+  min-height: 28rem;
+}
+
+.article-card:hover {
+  box-shadow: 0 4px 20px rgba(34, 68, 123, 0.2);
+  cursor: pointer;
+}
+
+.article-content {
+  padding: 1rem 2rem;
+}
+
+.article-content .card-title {
+  margin: 1rem 0;
+  color: #22447b;
+}
+
+@media screen and (min-width: 768px) {
+  .App {
+    max-width: 608px;
+  }
+  .article-card {
+    display: grid;
+    grid-template-rows: 220px 1fr;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .App {
+    max-width: 1156px;
+  }
+}
