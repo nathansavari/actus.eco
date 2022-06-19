@@ -34,7 +34,11 @@ const Newtab = () => {
                 <h3 key={article.title} className="card-title">
                   {article.title}
                 </h3>
-                <p>{article.pubDate}</p>
+                <p key={article.pubDate}>
+                  {new Date(Date.parse(article.pubDate)).toLocaleDateString(
+                    'fr'
+                  )}
+                </p>
               </div>
             </article>
           </a>
