@@ -6,6 +6,7 @@ import '../../Components/Card';
 
 const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
+  const [image, setImage] = useState('');
 
   const urls = [
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fyoumatter.world%2Ffr%2Fplanete%2Ffeed%2F',
@@ -13,19 +14,21 @@ const Newtab = () => {
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fbonpote.com%2Ffeed%2F',
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftheconversation.com%2Ffr%2Fenvironnement%2Farticles.atom',
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Freseauactionclimat.org%2Ffeed',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fvert.eco%2Ffeed',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.halteobsolescence.org%2Ffeed%2F',
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ecologie.gouv.fr%2Frss_actualites.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fvert.eco%2Ffeed',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.linfodurable.fr%2Frss.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.lemonde.fr%2Frss%2Ftag%2Fplanete.xml',
   ];
 
   useEffect(() => {
     async function getAllUrls(urls) {
       try {
-        var data = await Promise.all(
+        let data = await Promise.all(
           urls.map((url) => fetch(url).then((response) => response.json()))
         );
 
-        var articles = [];
+        const articles = [];
 
         for (let i = 0; i < data[0].items.length; i++) {
           articles.push(data[0].items[i]);
@@ -51,6 +54,12 @@ const Newtab = () => {
         for (let i = 0; i < data[7].items.length; i++) {
           articles.push(data[7].items[i]);
         }
+        for (let i = 0; i < data[8].items.length; i++) {
+          articles.push(data[8].items[i]);
+        }
+        for (let i = 0; i < data[9].items.length; i++) {
+          articles.push(data[9].items[i]);
+        }
 
         const sortedArticles = articles
           .slice()
@@ -59,7 +68,6 @@ const Newtab = () => {
               new Date(Date.parse(b.pubDate)) - new Date(Date.parse(a.pubDate))
           );
 
-        console.log(sortedArticles);
         setArticleList(sortedArticles);
       } catch (error) {
         console.log(error);
@@ -69,14 +77,16 @@ const Newtab = () => {
     }
     getAllUrls(urls);
 
-    // const findArticles = async () => {
-    //   const data = await fetch(urls[0]);
-    //   const body = await data.json();
-    //   // console.log(body);
-    //   setArticleList(body.items);
-    // };
+    const randomPics = async () => {
+      let image = await fetch(
+        `https://api.unsplash.com/photos/random?query=nature/&client_id=f9PTjUfi3DTBdWXhqm6Z-SlJPRMH2Gp1kp8qzLKPLdM`
+      ).then((response) => response.json());
 
-    // findArticles();
+      console.log(image.urls.regular);
+      setImage(image.urls.regular);
+    };
+
+    randomPics();
   }, []);
 
   return (
@@ -90,9 +100,12 @@ const Newtab = () => {
             rel=" noopener noreferrer"
           >
             <article className="article-card">
-              {/* {console.log(articleList)} */}
               <figure className="article-image">
-                <img src={article.thumbnail} />
+                {article.thumbnail ? (
+                  <img src={article.thumbnail} />
+                ) : (
+                  <img src={article.enclosure.link} />
+                )}
               </figure>
               <div className="article-content">
                 <img
