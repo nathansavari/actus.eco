@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import './Newtab.css';
 import './Newtab.scss';
 import '../../Components/Card';
+import Photo from '../../assets/img/no-photo-planet-3.jpg';
 
 const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
@@ -19,6 +20,7 @@ const Newtab = () => {
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fvert.eco%2Ffeed',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.linfodurable.fr%2Frss.xml',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.lemonde.fr%2Frss%2Ftag%2Fplanete.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.francetvinfo.fr%2Fenvironnement.rss',
   ];
 
   useEffect(() => {
@@ -60,6 +62,9 @@ const Newtab = () => {
         for (let i = 0; i < data[9].items.length; i++) {
           articles.push(data[9].items[i]);
         }
+        for (let i = 0; i < data[10].items.length; i++) {
+          articles.push(data[10].items[i]);
+        }
 
         const sortedArticles = articles
           .slice()
@@ -92,33 +97,33 @@ const Newtab = () => {
   return (
     <div className="App">
       <div className="article-container">
-        {articleList.map((article) => (
+        {articleList.map((i) => (
           <a
-            key={article.link}
-            href={article.link}
+            key={i.link}
+            href={i.link}
             target="_blank"
             rel=" noopener noreferrer"
           >
             <article className="article-card">
               <figure className="article-image">
-                {article.thumbnail ? (
-                  <img src={article.thumbnail} />
+                {i.thumbnail ? (
+                  <img src={i.thumbnail} />
+                ) : i.enclosure.link ? (
+                  <img src={i.enclosure.link} />
                 ) : (
-                  <img src={article.enclosure.link} />
+                  <img src={Photo} />
                 )}
               </figure>
               <div className="article-content">
                 <img
-                  src={`https://www.google.com/s2/favicons?domain=${article.link}&sz=128`}
+                  src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
                 ></img>
 
-                <h3 key={article.title} className="card-title">
-                  {article.title}
+                <h3 key={i.title} className="card-title">
+                  {i.title}
                 </h3>
-                <p key={article.pubDate}>
-                  {new Date(Date.parse(article.pubDate)).toLocaleDateString(
-                    'fr'
-                  )}
+                <p key={i.pubDate}>
+                  {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
                 </p>
               </div>
             </article>
