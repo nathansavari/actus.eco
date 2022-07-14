@@ -90,13 +90,12 @@ const Newtab = () => {
                   {/* <img
                     src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
                   ></img> */}
-
-                  <h3 key={i.title} className="card-title">
-                    {i.title}
-                  </h3>
                   <p key={i.pubDate}>
                     {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
                   </p>
+                  <h3 key={i.title} className="card-title">
+                    {i.title}
+                  </h3>
                 </div>
               </article>
             </a>
