@@ -7,6 +7,7 @@ import Photo from '../../assets/img/background.svg';
 
 const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
+  const [isLoarding, setIsLoading] = useState(false);
 
   const urls = [
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fyoumatter.world%2Ffr%2Fplanete%2Ffeed%2F',
@@ -23,6 +24,7 @@ const Newtab = () => {
   ];
 
   useEffect(() => {
+    setIsLoading(true);
     async function getAllUrls(urls) {
       try {
         let data = await Promise.all(
@@ -31,38 +33,10 @@ const Newtab = () => {
 
         const articles = [];
 
-        for (let i = 0; i < data[0].items.length; i++) {
-          articles.push(data[0].items[i]);
-        }
-        for (let i = 0; i < data[1].items.length; i++) {
-          articles.push(data[1].items[i]);
-        }
-        for (let i = 0; i < data[2].items.length; i++) {
-          articles.push(data[2].items[i]);
-        }
-        for (let i = 0; i < data[3].items.length; i++) {
-          articles.push(data[3].items[i]);
-        }
-        for (let i = 0; i < data[4].items.length; i++) {
-          articles.push(data[4].items[i]);
-        }
-        for (let i = 0; i < data[5].items.length; i++) {
-          articles.push(data[5].items[i]);
-        }
-        for (let i = 0; i < data[6].items.length; i++) {
-          articles.push(data[6].items[i]);
-        }
-        for (let i = 0; i < data[7].items.length; i++) {
-          articles.push(data[7].items[i]);
-        }
-        for (let i = 0; i < data[8].items.length; i++) {
-          articles.push(data[8].items[i]);
-        }
-        for (let i = 0; i < data[9].items.length; i++) {
-          articles.push(data[9].items[i]);
-        }
-        for (let i = 0; i < data[10].items.length; i++) {
-          articles.push(data[10].items[i]);
+        for (let i = 0; i < data[data.length - 1].items.length; i++) {
+          urls.forEach((url) => {
+            articles.push(data[urls.indexOf(url, urls)].items[i]);
+          });
         }
 
         const sortedArticles = articles
@@ -82,6 +56,7 @@ const Newtab = () => {
       }
     }
     getAllUrls(urls);
+    setIsLoading(false);
   }, []);
 
   return (
@@ -111,7 +86,9 @@ const Newtab = () => {
             >
               <article className="article-card">
                 <figure className="article-image">
-                  {i.thumbnail ? (
+                  {isLoarding === true ? (
+                    <p>coucou</p>
+                  ) : i.thumbnail ? (
                     <img src={i.thumbnail} alt={i.title} />
                   ) : i.enclosure.link ? (
                     <img src={i.enclosure.link} alt={i.title} />
