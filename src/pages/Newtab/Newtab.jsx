@@ -2,12 +2,13 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './Newtab.css';
 import './Newtab.scss';
-import '../../Components/Card';
 import Photo from '../../assets/img/background.svg';
+import Spinner from '../../Components/Spinner';
+import Header from '../../Components/Header';
 
 const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
-  const [isLoarding, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const urls = [
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fyoumatter.world%2Ffr%2Fplanete%2Ffeed%2F',
@@ -61,18 +62,7 @@ const Newtab = () => {
 
   return (
     <>
-      <header className="header">
-        <div className="logo"></div>
-
-        <nav className="nav">
-          <a href="https://www.gmail.com">
-            <p>Gmail</p>
-          </a>
-          <a href="https://www.google.fr/imghp?hl=fr&tab=ri&authuser=0&ogbl">
-            <p>Images</p>
-          </a>
-        </nav>
-      </header>
+      <Header />
       <div className="App">
         <h2>Les dernières actualités</h2>
         <br />
@@ -86,8 +76,8 @@ const Newtab = () => {
             >
               <article className="article-card">
                 <figure className="article-image">
-                  {isLoarding === true ? (
-                    <p>coucou</p>
+                  {isLoading === true ? (
+                    <Spinner />
                   ) : i.thumbnail ? (
                     <img src={i.thumbnail} alt={i.title} />
                   ) : i.enclosure.link ? (
@@ -97,9 +87,9 @@ const Newtab = () => {
                   )}
                 </figure>
                 <div className="article-content">
-                  <img
+                  {/* <img
                     src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
-                  ></img>
+                  ></img> */}
 
                   <h3 key={i.title} className="card-title">
                     {i.title}
