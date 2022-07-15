@@ -48,7 +48,6 @@ const Newtab = () => {
           )
           .slice(0, 21);
 
-        console.log(sortedArticles);
         setArticleList(sortedArticles);
       } catch (error) {
         console.log(error);
@@ -63,43 +62,47 @@ const Newtab = () => {
   return (
     <>
       <Header />
+
       <div className="App">
         <h2>Les dernières actualités</h2>
         <br />
         <div className="article-container">
-          {articleList.map((i) => (
-            <a
-              key={i.link}
-              href={i.link}
-              target="_blank"
-              rel=" noopener noreferrer"
-            >
-              <article className="article-card">
-                <figure className="article-image">
-                  {isLoading === true ? (
-                    <Spinner />
-                  ) : i.thumbnail ? (
-                    <img src={i.thumbnail} alt={i.title} />
-                  ) : i.enclosure.link ? (
-                    <img src={i.enclosure.link} alt={i.title} />
-                  ) : (
-                    <img src={Photo} />
-                  )}
-                </figure>
-                <div className="article-content">
-                  {/* <img
+          {isLoading === true ? (
+            <Spinner />
+          ) : (
+            articleList.map((i) => (
+              <a
+                key={i.link}
+                href={i.link}
+                target="_blank"
+                rel=" noopener noreferrer"
+              >
+                <article className="article-card">
+                  <figure className="article-image">
+                    {i.thumbnail ? (
+                      <img src={i.thumbnail} alt={i.title} />
+                    ) : i.enclosure.link ? (
+                      <img src={i.enclosure.link} alt={i.title} />
+                    ) : (
+                      <img src={Photo} />
+                    )}
+                  </figure>
+                  <div className="article-content">
+                    {/* <img
                     src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
                   ></img> */}
-                  <p key={i.pubDate}>
-                    {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
-                  </p>
-                  <h3 key={i.title} className="card-title">
-                    {i.title}
-                  </h3>
-                </div>
-              </article>
-            </a>
-          ))}
+
+                    <p key={i.pubDate}>
+                      {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
+                    </p>
+                    <h3 key={i.title} className="card-title">
+                      {i.title}
+                    </h3>
+                  </div>
+                </article>
+              </a>
+            ))
+          )}
         </div>
       </div>
     </>
