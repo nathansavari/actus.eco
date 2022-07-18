@@ -30,12 +30,12 @@
 }
 
 .nav a:visited:hover {
-  color: rgb(151, 190, 254);
+  color: #272eef;
 }
 
 .nav a:visited {
   text-decoration: none;
-  color: #122d57;
+  color: #606060;
 }
 
 .logo {
