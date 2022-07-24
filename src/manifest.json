@@ -16,7 +16,6 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "js": ["contentScript.bundle.js"],
       "css": ["content.styles.css"]
     }
