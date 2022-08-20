@@ -20,22 +20,22 @@
 .nav {
   display: flex;
   justify-content: space-between;
-  color: #122d57;
 }
 
 .nav a {
   margin: 0 1rem;
   transition: 0.3s;
   text-decoration: none;
-}
-
-.nav a:visited:hover {
-  color: #272eef;
+  color: #606060;
 }
 
 .nav a:visited {
   text-decoration: none;
   color: #606060;
+}
+
+.nav a:hover {
+  color: #949494;
 }
 
 .logo {
@@ -67,10 +67,10 @@
 }
 
 .article-image img {
-  max-width: 100%;
-  height: auto;
-  max-height: 200px;
+  width: 261px;
+  height: 150px;
   border-radius: 20px 20px 0 0;
+  object-fit: cover;
 }
 
 .article-card {
@@ -78,6 +78,7 @@
   border-radius: 20px;
   transition: 0.3s;
   height: 22rem;
+  border: 2px solid #e8e5ff;
   /* min-height: 28rem; */
 }
 
