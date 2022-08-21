@@ -10,6 +10,8 @@ import {
   EmailIcon,
   LinkedinShareButton,
   LinkedinIcon,
+  TwitterShareButton,
+  TwitterIcon,
 } from 'react-share';
 
 const Newtab = () => {
@@ -39,17 +41,23 @@ const Newtab = () => {
     setIsLoading(true);
     async function getAllUrls(urls) {
       try {
+        // On récupère tous les articles de chaque url
+
         let data = await Promise.all(
           urls.map((url) => fetch(url).then((response) => response.json()))
         );
 
         const articles = [];
 
+        // On prend chaque article de chaque source, et on les met dans le tableau "articles"
+
         for (let i = 0; i < data[data.length - 1].items.length; i++) {
           urls.forEach((url) => {
             articles.push(data[urls.indexOf(url, urls)].items[i]);
           });
         }
+
+        // On tri les articles pour qu'ils soient dans l'ordre de parution
 
         const sortedArticles = articles
           .slice()
@@ -106,13 +114,13 @@ const Newtab = () => {
                     <p key={i.pubDate} className="card-date">
                       {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
                     </p>
-                    {i.title.length <= 90 ? (
+                    {i.title.length <= 85 ? (
                       <h3 key={i.title} className="card-title">
                         {i.title}
                       </h3>
                     ) : (
                       <h3 key={i.title} className="card-title">
-                        {i.title.substring(0, 90) + '...'}
+                        {i.title.substring(0, 85) + '...'}
                       </h3>
                     )}
 
@@ -123,6 +131,9 @@ const Newtab = () => {
                       <LinkedinShareButton url={i.link}>
                         <LinkedinIcon className="card-icon"></LinkedinIcon>
                       </LinkedinShareButton>
+                      <TwitterShareButton url={i.link}>
+                        <TwitterIcon className="card-icon"></TwitterIcon>
+                      </TwitterShareButton>
                     </div>
                   </div>
                 </article>
