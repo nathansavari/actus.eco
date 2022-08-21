@@ -5,6 +5,12 @@ import './Newtab.scss';
 import Photo from '../../assets/img/background.svg';
 import Spinner from '../../Components/Spinner';
 import Header from '../../Components/Header';
+import {
+  EmailShareButton,
+  EmailIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from 'react-share';
 
 const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
@@ -20,8 +26,13 @@ const Newtab = () => {
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fvert.eco%2Ffeed',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.novethic.fr%2Fflux-rss%2Fflux%2Frssall%2Ftous-les-articles.xml',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds.feedburner.com%2Fademe-presse',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Flareleveetlapeste.fr%2Ffeed%2F',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.francetvinfo.fr%2Fenvironnement.rss',
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.natura-sciences.com%2Ffeed',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fpositivr.fr%2Ffeed%2F',
+    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpiochemag.fr%2Ffeed%2F',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds2.feedburner.com%2Fenerzine-lesdernieresbreves',
+    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.greenunivers.com%2Ffeed%2F',
   ];
 
   useEffect(() => {
@@ -88,16 +99,31 @@ const Newtab = () => {
                     )}
                   </figure>
                   <div className="article-content">
-                    {/* <img
-                    src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
-                  ></img> */}
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
+                    ></img>
 
-                    <p key={i.pubDate}>
+                    <p key={i.pubDate} className="card-date">
                       {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
                     </p>
-                    <h3 key={i.title} className="card-title">
-                      {i.title}
-                    </h3>
+                    {i.title.length <= 90 ? (
+                      <h3 key={i.title} className="card-title">
+                        {i.title}
+                      </h3>
+                    ) : (
+                      <h3 key={i.title} className="card-title">
+                        {i.title.substring(0, 90) + '...'}
+                      </h3>
+                    )}
+
+                    <div className="card-social">
+                      <EmailShareButton url={i.link} className="card-share">
+                        <EmailIcon className="card-icon"></EmailIcon>
+                      </EmailShareButton>
+                      <LinkedinShareButton url={i.link}>
+                        <LinkedinIcon className="card-icon"></LinkedinIcon>
+                      </LinkedinShareButton>
+                    </div>
                   </div>
                 </article>
               </a>
