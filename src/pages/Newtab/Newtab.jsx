@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './Newtab.css';
 import './Newtab.scss';
-import Photo from '../../assets/img/background.svg';
+import Photo from '../../assets/img/Photo.svg';
 import Spinner from '../../Components/Spinner';
 import Header from '../../Components/Header';
 import {
@@ -20,26 +20,9 @@ const Newtab = () => {
 
   const { parse } = require('rss-to-json');
 
-  const urls = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fyoumatter.world%2Ffr%2Fplanete%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.zerowastefrance.org%2Ffeed%3Fformat%3Drss',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fbonpote.com%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Freseauactionclimat.org%2Ffeed',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.halteobsolescence.org%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ecologie.gouv.fr%2Frss_actualites.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fvert.eco%2Ffeed',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.novethic.fr%2Fflux-rss%2Fflux%2Frssall%2Ftous-les-articles.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds.feedburner.com%2Fademe-presse',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Flareleveetlapeste.fr%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.francetvinfo.fr%2Fenvironnement.rss',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.natura-sciences.com%2Ffeed',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fpositivr.fr%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpiochemag.fr%2Ffeed%2F',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds2.feedburner.com%2Fenerzine-lesdernieresbreves',
-    'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.greenunivers.com%2Ffeed%2F',
-  ];
+  // Flux rss pour alimenter la page
 
-  const urls2 = [
+  const urls = [
     'http://positivr.fr/feed/',
     'http://lareleveetlapeste.fr/feed/',
     'http://www.novethic.fr/flux-rss/flux/rssall/tous-les-articles.xml',
@@ -48,41 +31,39 @@ const Newtab = () => {
     'https://bonpote.com/feed/',
     'http://www.developpement-durable.gouv.fr/rss_actualites.html',
     'http://rss.futura-sciences.com/fs/environnement/actus',
+    'http://www.halteobsolescence.org/feed/',
+    'https://www.zerowastefrance.org/feed?format=rss',
   ];
+
+  // Reformatage du flux rss
+
+  const mapObj = {
+    '&#8220;': '"',
+    '&#8217;': '"',
+    '&#8221;': '"',
+    '&#8230;': '...',
+    '&#8211;': '-',
+    '&#160;': ' ',
+  };
+
+  const reg = new RegExp(Object.keys(mapObj).join('|'), 'gi');
 
   useEffect(() => {
     setIsLoading(true);
-    const regex = '&#8217;';
 
     async function getAllUrls() {
       try {
-        // On récupère tous les articles de chaque url
-
-        // let data = await Promise.all(
-        //   urls.map((url) => fetch(url).then((response) => response.json()))
-        // );
-
-        // console.log(data);
-
         const articles = [];
 
-        let data2 = await Promise.all(urls2.map((url) => parse(url)));
+        // On récupère tous les articles de chaque url
 
-        console.log(data2);
-
-        // console.log(data2[0].items);
-
-        // (async () => {
-        //   var rss = await parse('https://blog.ethereum.org/feed.xml');
-
-        //   console.log(JSON.stringify(rss, null, 3));
-        // })();
+        let data = await Promise.all(urls.map((url) => parse(url)));
 
         // On prend chaque article de chaque source, et on les met dans le tableau "articles"
 
-        for (let i = 0; i < data2[data2.length - 1].items.length; i++) {
-          urls2.forEach((url) => {
-            articles.push(data2[urls2.indexOf(url)].items[i]);
+        for (let i = 0; i < data[data.length - 1].items.length; i++) {
+          urls.forEach((url) => {
+            articles.push(data[urls.indexOf(url)].items[i]);
           });
         }
 
@@ -91,7 +72,7 @@ const Newtab = () => {
         const sortedArticles = articles
           .slice()
           .sort((a, b) => new Date(b.published) - new Date(a.published))
-          .slice(0, 21);
+          .slice(0, 24);
 
         setArticleList(sortedArticles);
       } catch (error) {
@@ -100,7 +81,7 @@ const Newtab = () => {
         throw error;
       }
     }
-    getAllUrls(urls);
+    getAllUrls();
     setIsLoading(false);
   }, []);
 
@@ -128,8 +109,6 @@ const Newtab = () => {
                       <img src={i.media.thumbnail.url} alt={i.title} />
                     ) : i.enclosures.length > 0 ? (
                       <img src={i.enclosures[0]?.url} alt={i.title} />
-                    ) : i.link ? (
-                      <img src={i.link} />
                     ) : (
                       <img src={Photo} />
                     )}
@@ -140,16 +119,22 @@ const Newtab = () => {
                     ></img>
 
                     <p key={i.published} className="card-date">
-                      {console.log(new Date(i.published))}
                       {new Date(i.published).toLocaleDateString('fr')}
                     </p>
                     {i.title.length <= 85 ? (
                       <h3 key={i.title} className="card-title">
-                        {i.title.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')}
+                        {i.title.replace(reg, function (matched) {
+                          return mapObj[matched];
+                        })}
                       </h3>
                     ) : (
                       <h3 key={i.title} className="card-title">
-                        {i.title.substring(0, 85) + '...'}
+                        {i.title
+                          .replace(reg, function (matched) {
+                            return mapObj[matched];
+                          })
+
+                          .substring(0, 85) + '...'}
                       </h3>
                     )}
 
