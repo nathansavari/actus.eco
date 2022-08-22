@@ -18,6 +18,8 @@ const Newtab = () => {
   const [articleList, setArticleList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { parse } = require('rss-to-json');
+
   const urls = [
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fyoumatter.world%2Ffr%2Fplanete%2Ffeed%2F',
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.zerowastefrance.org%2Ffeed%3Fformat%3Drss',
@@ -37,23 +39,50 @@ const Newtab = () => {
     'https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.greenunivers.com%2Ffeed%2F',
   ];
 
+  const urls2 = [
+    'http://positivr.fr/feed/',
+    'http://lareleveetlapeste.fr/feed/',
+    'http://www.novethic.fr/flux-rss/flux/rssall/tous-les-articles.xml',
+    'https://vert.eco/feed',
+    'http://www.francetvinfo.fr/environnement.rss',
+    'https://bonpote.com/feed/',
+    'http://www.developpement-durable.gouv.fr/rss_actualites.html',
+    'http://rss.futura-sciences.com/fs/environnement/actus',
+  ];
+
   useEffect(() => {
     setIsLoading(true);
-    async function getAllUrls(urls) {
+    const regex = '&#8217;';
+
+    async function getAllUrls() {
       try {
         // On récupère tous les articles de chaque url
 
-        let data = await Promise.all(
-          urls.map((url) => fetch(url).then((response) => response.json()))
-        );
+        // let data = await Promise.all(
+        //   urls.map((url) => fetch(url).then((response) => response.json()))
+        // );
+
+        // console.log(data);
 
         const articles = [];
 
+        let data2 = await Promise.all(urls2.map((url) => parse(url)));
+
+        console.log(data2);
+
+        // console.log(data2[0].items);
+
+        // (async () => {
+        //   var rss = await parse('https://blog.ethereum.org/feed.xml');
+
+        //   console.log(JSON.stringify(rss, null, 3));
+        // })();
+
         // On prend chaque article de chaque source, et on les met dans le tableau "articles"
 
-        for (let i = 0; i < data[data.length - 1].items.length; i++) {
-          urls.forEach((url) => {
-            articles.push(data[urls.indexOf(url, urls)].items[i]);
+        for (let i = 0; i < data2[data2.length - 1].items.length; i++) {
+          urls2.forEach((url) => {
+            articles.push(data2[urls2.indexOf(url)].items[i]);
           });
         }
 
@@ -98,10 +127,12 @@ const Newtab = () => {
               >
                 <article className="article-card">
                   <figure className="article-image">
-                    {i.thumbnail ? (
-                      <img src={i.thumbnail} alt={i.title} />
-                    ) : i.enclosure.link ? (
-                      <img src={i.enclosure.link} alt={i.title} />
+                    {i.media.thumbnail ? (
+                      <img src={i.media.thumbnail.url} alt={i.title} />
+                    ) : i.enclosures.length > 0 ? (
+                      <img src={i.enclosures[0]?.url} alt={i.title} />
+                    ) : i.link ? (
+                      <img src={i.link} />
                     ) : (
                       <img src={Photo} />
                     )}
@@ -116,7 +147,7 @@ const Newtab = () => {
                     </p>
                     {i.title.length <= 85 ? (
                       <h3 key={i.title} className="card-title">
-                        {i.title}
+                        {i.title.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')}
                       </h3>
                     ) : (
                       <h3 key={i.title} className="card-title">
