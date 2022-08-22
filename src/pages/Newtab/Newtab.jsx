@@ -90,10 +90,7 @@ const Newtab = () => {
 
         const sortedArticles = articles
           .slice()
-          .sort(
-            (a, b) =>
-              new Date(Date.parse(b.pubDate)) - new Date(Date.parse(a.pubDate))
-          )
+          .sort((a, b) => new Date(b.published) - new Date(a.published))
           .slice(0, 21);
 
         setArticleList(sortedArticles);
@@ -142,8 +139,9 @@ const Newtab = () => {
                       src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
                     ></img>
 
-                    <p key={i.pubDate} className="card-date">
-                      {new Date(Date.parse(i.pubDate)).toLocaleDateString('fr')}
+                    <p key={i.published} className="card-date">
+                      {console.log(new Date(i.published))}
+                      {new Date(i.published).toLocaleDateString('fr')}
                     </p>
                     {i.title.length <= 85 ? (
                       <h3 key={i.title} className="card-title">
