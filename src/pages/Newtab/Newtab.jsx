@@ -44,6 +44,7 @@ const Newtab = () => {
     '&#8230;': '...',
     '&#8211;': '-',
     '&#160;': ' ',
+    '&#038;': '&',
   };
 
   const reg = new RegExp(Object.keys(mapObj).join('|'), 'gi');
