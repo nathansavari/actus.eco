@@ -33,13 +33,28 @@ const Newtab = () => {
     'http://rss.futura-sciences.com/fs/environnement/actus',
     'http://www.halteobsolescence.org/feed/',
     'https://www.zerowastefrance.org/feed?format=rss',
+    'https://piochemag.fr/feed/',
+    'https://deliacious.com/feed',
+    'https://www.thegoodgoods.fr/rss.xml',
+    'http://feeds2.feedburner.com/enerzine-lesdernieresbreves',
+    'http://www.greenunivers.com/feed/',
+    'https://www.decisionsdurables.com/feed/',
+    'https://mrmondialisation.org/feed/',
+    'https://lejournalminimal.fr/feed/',
+    'https://planete.lesechos.fr/feed/',
+    'https://www.zerowastefrance.org/feed',
+    'http://www.lemonde.fr/rss/tag/planete.xml',
+    'https://www.wedemain.fr/feed/',
+    'https://www.economiecirculaire.org/rss/lastnews.xml',
+    'http://www.zegreenweb.com/feed',
+    'http://www.natura-sciences.com/feed',
   ];
 
   // Reformatage du flux rss
 
   const mapObj = {
     '&#8220;': '"',
-    '&#8217;': '"',
+    '&#8217;': "'",
     '&#8221;': '"',
     '&#8230;': '...',
     '&#8211;': '-',
@@ -59,6 +74,8 @@ const Newtab = () => {
         // On récupère tous les articles de chaque url
 
         let data = await Promise.all(urls.map((url) => parse(url)));
+
+        console.log(data);
 
         // On prend chaque article de chaque source, et on les met dans le tableau "articles"
 

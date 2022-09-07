@@ -12,14 +12,14 @@ export default function Header() {
         <form
           className="form"
           action={`https://www.ecosia.org/search?q=${search}`}
-          autocomplete="off"
+          autoComplete="off"
         >
           <label>
             <input
               className="input"
               type="search"
               name="q"
-              placeholder="Rechercher"
+              placeholder="Rechercher sur Ecosia"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               required
