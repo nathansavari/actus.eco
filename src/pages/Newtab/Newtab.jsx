@@ -23,14 +23,11 @@ const Newtab = () => {
   // Flux rss pour alimenter la page
 
   const urls = [
-    'http://positivr.fr/feed/',
     'http://lareleveetlapeste.fr/feed/',
     'http://www.novethic.fr/flux-rss/flux/rssall/tous-les-articles.xml',
     'https://vert.eco/feed',
     'http://www.francetvinfo.fr/environnement.rss',
     'https://bonpote.com/feed/',
-    'http://www.developpement-durable.gouv.fr/rss_actualites.html',
-    'http://rss.futura-sciences.com/fs/environnement/actus',
     'http://www.halteobsolescence.org/feed/',
     'https://www.zerowastefrance.org/feed?format=rss',
     'https://piochemag.fr/feed/',
@@ -48,6 +45,15 @@ const Newtab = () => {
     'https://www.economiecirculaire.org/rss/lastnews.xml',
     'http://www.zegreenweb.com/feed',
     'http://www.natura-sciences.com/feed',
+    'https://www.nowuproject.eu/rss',
+    'https://www.oxfamfrance.org/feed/',
+    'https://www.humanite.fr/rss/actu.rss/Plan%C3%A8te',
+    'http://www.lemonde.fr/biodiversite/rss_full.xml',
+    'http://rss.futura-sciences.com/fs/environnement/actus',
+    'https://www.huffingtonpost.fr/environnement/rss_headline.xml',
+    'https://blog.recommerce.com/feed/',
+    'https://www.wearephenix.com/pro/feed/',
+    'https://www.wearephenix.com/feed/',
   ];
 
   // Reformatage du flux rss
@@ -73,15 +79,19 @@ const Newtab = () => {
 
         // On récupère tous les articles de chaque url
 
-        let data = await Promise.all(urls.map((url) => parse(url)));
+        let promises = await Promise.allSettled(urls.map((url) => parse(url)));
+
+        // On filtre les urls actives
+
+        let data = promises.filter((promise) => promise.status === 'fulfilled');
 
         console.log(data);
 
         // On prend chaque article de chaque source, et on les met dans le tableau "articles"
 
-        for (let i = 0; i < data[data.length - 1].items.length; i++) {
+        for (let i = 0; i < data[data.length - 1].value.items.length; i++) {
           urls.forEach((url) => {
-            articles.push(data[urls.indexOf(url)].items[i]);
+            articles.push(data[urls.indexOf(url)]?.value.items[i]);
           });
         }
 
@@ -94,7 +104,7 @@ const Newtab = () => {
 
         setArticleList(sortedArticles);
       } catch (error) {
-        console.log(error);
+        console.log({ error });
 
         throw error;
       }
