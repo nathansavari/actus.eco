@@ -17,9 +17,9 @@ h6 {
   appearance: none;
   outline: none;
 
-  // &::-webkit-search-cancel-button {
-  //   appearance: none;
-  // }
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
 }
 
 .form {
@@ -34,9 +34,9 @@ h6 {
   transform: translate(-50%, -50%);
   background: #fff;
   transition: all 0.3s ease;
+}
 
-  // &.focus {
-  //   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-  //     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  // }
+.form:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import '../pages/Newtab/Newtab.css';
 import '../pages/Newtab/Newtab.scss';
 import { useState } from 'react';
-import Search from '../assets/img/search.svg';
 
 export default function Header() {
   const [search, setSearch] = useState('');
