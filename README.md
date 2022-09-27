@@ -2,7 +2,7 @@
 
 # Bienvenue
 
-Le but de cette extension Chrome est d'apporter des npuvelles fraiches et de qualité sur l'environnement. Tout se trouve en un seul endroit, à chaque dois que vous ouvrez une nouvelle page sur votre navigateur !
+Le but de cette extension Chrome est d'apporter des nouvelles fraîches et de qualité sur l'environnement. Tout se trouve en un seul endroit, à chaque fois que vous ouvrez une nouvelle page sur votre navigateur !
 
 Cette extension à été créé à partir de ce boilerplate : [https://github.com/lxieyang/chrome-extension-boilerplate-react](https://github.com/lxieyang/chrome-extension-boilerplate-react).
 
