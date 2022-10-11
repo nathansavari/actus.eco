@@ -32,6 +32,9 @@ const Newtab = () => {
     '&#8211;': '-',
     '&#160;': ' ',
     '&#038;': '&',
+    '&#xEA;': 'ê',
+    '&#xE9;': 'é',
+    '&#xE8;': 'è',
   };
 
   const reg = new RegExp(Object.keys(mapObj).join('|'), 'gi');

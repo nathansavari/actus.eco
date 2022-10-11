@@ -30,5 +30,8 @@ const urls = [
   'https://blog.recommerce.com/feed/',
   'https://www.wearephenix.com/pro/feed/',
   'https://www.wearephenix.com/feed/',
+  'https://dailygreen.substack.com/feed',
+  'https://www.neozone.org/category/ecologie-planete/feed/',
+  'https://solar.lowtechmagazine.com/fr/feeds/all-fr.rss.xml',
 ];
 export default urls;
