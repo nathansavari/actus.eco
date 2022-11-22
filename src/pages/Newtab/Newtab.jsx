@@ -2,23 +2,17 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './Newtab.css';
 import './Newtab.scss';
-import Spinner from '../../Components/Spinner';
 import Header from '../../Components/Header';
 import Card from '../../Components/Card';
 
 import urls from './urls.js';
 
-const Newtab = () => {
+export default function Newtab() {
   const [articleList, setArticleList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { parse } = require('rss-to-json');
 
-  // Reformatage du flux rss
-
   useEffect(() => {
-    setIsLoading(true);
-
     async function getAllUrls() {
       try {
         const articles = [];
@@ -54,26 +48,20 @@ const Newtab = () => {
       }
     }
     getAllUrls();
-    setIsLoading(false);
   }, []);
 
   return (
     <>
       <Header />
-
       <div className="App">
         <h2>Les dernières actualités</h2>
         <br />
         <div className="article-container">
-          {isLoading === true ? (
-            <Spinner />
-          ) : (
-            articleList.map((i) => <Card props={i} />)
-          )}
+          {articleList.map((i) => (
+            <Card key={i.id} props={i} />
+          ))}
         </div>
       </div>
     </>
   );
-};
-
-export default Newtab;
+}

@@ -2,7 +2,9 @@ import React from 'react';
 import Photo from '../assets/img/Photo';
 import Share from './Share';
 
-export default function Card(props) {
+export default function Card({ props }) {
+  // Reformatage du flux rss
+
   const mapObj = {
     '&#8220;': '"',
     '&#8217;': "'",
@@ -18,12 +20,15 @@ export default function Card(props) {
 
   const reg = new RegExp(Object.keys(mapObj).join('|'), 'gi');
 
-  let i = props.props;
+  const i = props;
+
+  console.log(i);
+
   return (
-    <article key={i.link} className="article-card">
+    <article className="article-card">
       <figure className="article-image">
         {i.media.thumbnail ? (
-          <img src={i.media.thumbnail.url} alt={i.title} />
+          <img src={i.media?.thumbnail?.url} alt={i.title} />
         ) : i.enclosures.length > 0 ? (
           <img src={i.enclosures[0]?.url} alt={i.title} />
         ) : (
@@ -32,12 +37,7 @@ export default function Card(props) {
       </figure>
 
       <div className="article-content">
-        <a
-          key={i.link}
-          href={i.link}
-          target="_blank"
-          rel=" noopener noreferrer"
-        >
+        <a href={i.link} target="_blank" rel=" noopener noreferrer">
           <img
             src={`https://www.google.com/s2/favicons?domain=${i.link}&sz=128`}
           ></img>
